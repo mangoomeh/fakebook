@@ -9,6 +9,7 @@ import Profile from "./Pages/Profile/Profile";
 import theme from "./Theme";
 import { useState } from "react";
 import UserContext from "./Context/UserContext";
+import ProtectedRoutes from "./Components/ProtectedRoutes/ProtectedRoutes";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -18,14 +19,16 @@ function App() {
       <NavBar />
       <div>
         <UserContext.Provider
-          value={{accessToken, setAccessToken, refreshToken, setRefreshToken}}
+          value={{ accessToken, setAccessToken, refreshToken, setRefreshToken }}
         >
           <Routes>
             <Route path="/" element={<Start />} />
-            <Route path="home" element={<Home />} />
-            <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<Login />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="signup" element={<SignUp />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path="home" element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+            </Route>
           </Routes>
         </UserContext.Provider>
       </div>
