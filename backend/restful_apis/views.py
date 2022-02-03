@@ -12,7 +12,7 @@ class RegisterUser(APIView):
             return Response(serializer.data)
 
 
-class GetUserInformation(APIView):
+class UserProfile(APIView):
     def get(self, request):
         serializer = UserProfileSerializer(request.user, many=False)
         return Response(serializer.data)

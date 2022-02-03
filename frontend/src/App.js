@@ -10,6 +10,7 @@ import theme from "./Theme";
 import { useState } from "react";
 import UserContext from "./Context/UserContext";
 import ProtectedRoutes from "./Components/ProtectedRoutes/ProtectedRoutes";
+import Friends from "./Pages/Friends/Friends";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -28,6 +29,7 @@ function App() {
             <Route element={<ProtectedRoutes />}>
               <Route path="home" element={<Home />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="friends" element={<Friends />} />
             </Route>
           </Routes>
         </UserContext.Provider>

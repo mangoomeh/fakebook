@@ -11,7 +11,7 @@ const NavBar = () => {
   const scrollHandler = () => {
     setScrolly(window.scrollY);
   };
-
+ 
   const navigate = useNavigate();
 
   useEffect(() => {
