@@ -1,0 +1,64 @@
+import { Button, OutlinedInput } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import styles from "./Login.module.css";
+import axios from "axios";
+import UserContext from "../../Context/UserContext";
+
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { setAccessToken, setRefreshToken } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  const getToken = async (e) => {
+    e.preventDefault();
+    const endpoint = "http://127.0.0.1:8000/auth/token/";
+    const { data } = await axios.post(endpoint, {
+      email,
+      password,
+    });
+    setAccessToken(data.access);
+    setRefreshToken(data.refresh);
+    navigate("/home");
+  };
+
+  return (
+    <div id={styles.page}>
+      <form id={styles.container} onSubmit={getToken}>
+        <h1>jabber</h1>
+        <div className={styles.inputs}>
+          <OutlinedInput
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            size="small"
+            placeholder="Email"
+          />
+        </div>
+        <div className={styles.inputs}>
+          <OutlinedInput
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            type="password"
+            size="small"
+            placeholder="Password"
+          />
+        </div>
+        <Button type="submit" variant="contained">
+          continue
+        </Button>
+        <p>
+          Not a member? <Link to="/signup">Join</Link>
+        </p>
+      </form>
+    </div>
+  );
+};
+
+export default Login;
