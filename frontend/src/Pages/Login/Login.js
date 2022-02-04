@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import axios from "axios";
 import UserContext from "../../Context/UserContext";
+import fetcher from "../../Auth/Axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,13 +16,12 @@ const Login = () => {
 
   const getToken = async (e) => {
     e.preventDefault();
-    const endpoint = "http://127.0.0.1:8000/auth/token/";
-    const { data } = await axios.post(endpoint, {
+    const { access, refresh } = await fetcher.post("auth/token/", "", {
       email,
       password,
     });
-    setAccessToken(data.access);
-    setRefreshToken(data.refresh);
+    setAccessToken(access);
+    setRefreshToken(refresh);
     navigate("/home");
   };
 

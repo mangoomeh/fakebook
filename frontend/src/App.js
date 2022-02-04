@@ -9,7 +9,7 @@ import Profile from "./Pages/Profile/Profile";
 import theme from "./Theme";
 import { useState } from "react";
 import UserContext from "./Context/UserContext";
-import ProtectedRoutes from "./Auth/ProtectedRoutes/ProtectedRoutes";
+import ProtectedRoutes from "./Auth/ProtectedRoutes";
 import Friends from "./Pages/Friends/Friends";
 
 function App() {

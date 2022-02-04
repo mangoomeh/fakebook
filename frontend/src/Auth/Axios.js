@@ -5,23 +5,27 @@ const refreshTokenEndpoint = baseURL + "auth/token/refresh/";
 const verifyTokenEndpoint = baseURL + "auth/token/verify/";
 
 const fetcher = {
-  get: async (endpoint, accessToken, callBack) => {
+  get: async (endpoint, accessToken) => {
     try {
-      const res = await axios.post(baseURL + endpoint, {
+      const res = await axios.get(baseURL + endpoint, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      callBack(res.data);
+      return res.data;
     } catch (err) {
       console.log(err);
     }
   },
 
-  post: async (endpoint, accessToken, body, callBack) => {
+  post: async (endpoint, accessToken, body) => {
+    let headers = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    if (accessToken === "") {
+      headers = null;
+    }
     try {
-      const res = await axios.post(baseURL + endpoint, body, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      callBack(res.data);
+      const res = await axios.post(baseURL + endpoint, body, headers);
+      return res.data;
     } catch (err) {
       console.log(err);
     }
@@ -55,7 +59,7 @@ const fetcher = {
       const res = await axios.post(refreshTokenEndpoint, {
         refresh: refreshToken,
       });
-      return res.data.access
+      return res.data.access;
     }
   },
 };

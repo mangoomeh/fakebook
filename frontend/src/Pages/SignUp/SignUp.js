@@ -2,7 +2,7 @@ import { Button, OutlinedInput } from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
-import axios from "axios";
+import fetcher from "../../Auth/Axios";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,8 +15,7 @@ const SignUp = () => {
 
   const createAccount = async (e) => {
     e.preventDefault();
-    const endpoint = "http://127.0.0.1:8000/api/register/";
-    const { data } = await axios.post(endpoint, inputs);
+    const data = await fetcher.post("api/register/", "", inputs);
     console.log(data);
     navigate("/login");
   };

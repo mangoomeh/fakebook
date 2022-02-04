@@ -1,20 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./Profile.module.css";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import axios from "axios";
 import UserContext from "../../Context/UserContext";
+import fetcher from "../../Auth/Axios";
 
 const Profile = () => {
   const [userProfile, setUserProfile] = useState({});
-  const { accessToken } = useContext(UserContext);
+  const { accessToken, refreshToken, setAccessToken } = useContext(UserContext);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const endpoint = "http://127.0.0.1:8000/api/users/user";
-      const { data } = await axios.get(endpoint, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      const verifiedToken = await fetcher.verifyAndRefresh(
+        accessToken,
+        refreshToken
+      );
+      const data = await fetcher.get("api/users/user", verifiedToken);
       setUserProfile(data);
+      if (accessToken !== verifiedToken) {
+        setAccessToken(verifiedToken);
+      }
     };
     fetchProfile();
   }, []);
