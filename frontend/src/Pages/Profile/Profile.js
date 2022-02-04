@@ -10,7 +10,7 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const endpoint = "http://127.0.0.1:8000/api/user";
+      const endpoint = "http://127.0.0.1:8000/api/users/user";
       const { data } = await axios.get(endpoint, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });

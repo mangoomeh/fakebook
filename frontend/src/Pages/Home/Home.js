@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, InputAdornment, OutlinedInput } from "@mui/material";
 import styles from "./Home.module.css";
+import fetcher from "../../Auth/Auth";
+import UserContext from "../../Context/UserContext";
 
 const Home = () => {
   const [postContent, setPostContent] = useState("");
   const [peopleQuery, setPeopleQuery] = useState("");
 
+  const { accessToken, setAccessToken, refreshToken } = useContext(UserContext);
+
   const handleNewPost = async (e) => {
-    e.preventDefault()
-    const endpoint = "http://127.0.0.1:8000/api/users/"
-  }
+    if (e) {
+      e.preventDefault();
+    }
+    try {
+      await fetcher.post(
+        "api/posts/new/",
+        accessToken,
+        { content: postContent },
+        (data) => {
+          console.log(data);
+        }
+      );
+    } catch (err) {
+      if (err === 401) {
+        await fetcher.refresh(refreshToken);
+        handleNewPost();
+      }
+    }
+  };
 
   return (
     <div id={styles.page}>
@@ -30,7 +50,7 @@ const Home = () => {
         />
       </form>
       <div>
-        <form>
+        <form onSubmit={handleNewPost}>
           <OutlinedInput
             multiline
             rows={4}
@@ -42,13 +62,7 @@ const Home = () => {
             value={postContent}
           />
           <div>
-            <Button
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-              variant="contained"
-            >
+            <Button type="submit" variant="contained">
               post
             </Button>
           </div>
