@@ -18,11 +18,11 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavBar />
-      <div>
-        <UserContext.Provider
-          value={{ accessToken, setAccessToken, refreshToken, setRefreshToken }}
-        >
+      <UserContext.Provider
+        value={{ accessToken, setAccessToken, refreshToken, setRefreshToken }}
+      >
+        <NavBar />
+        <div>
           <Routes>
             <Route path="/" element={<Start />} />
             <Route path="login" element={<Login />} />
@@ -33,8 +33,8 @@ function App() {
               <Route path="friends" element={<Friends />} />
             </Route>
           </Routes>
-        </UserContext.Provider>
-      </div>
+        </div>
+      </UserContext.Provider>
     </ThemeProvider>
   );
 }
