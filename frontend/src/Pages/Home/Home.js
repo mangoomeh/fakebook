@@ -26,8 +26,20 @@ const Home = () => {
       );
     } catch (err) {
       if (err === 401) {
-        await fetcher.refresh(refreshToken);
-        handleNewPost();
+        await fetcher.refresh(refreshToken, (data) => {
+          console.log("access token", data);
+          setAccessToken(data.access);
+          // fetcher.post(
+          //   "api/posts/new/",
+          //   accessToken,
+          //   { content: postContent },
+          //   (data) => {
+          //     console.log(data);
+          //   }
+          // );
+        });
+
+        console.log("im in the catch block of handleNewPost");
       }
     }
   };
