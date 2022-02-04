@@ -11,7 +11,7 @@ const Home = () => {
 
   const { accessToken, setAccessToken, refreshToken } = useContext(UserContext);
 
-  const postNewPost = async (accessToken) => {
+  const newPost = async (accessToken) => {
     await fetcher.post(
       "api/posts/new/",
       accessToken,
@@ -24,16 +24,14 @@ const Home = () => {
 
   const handleNewPost = async (e) => {
     e.preventDefault();
-    const tokenIsValid = await fetcher.verify(accessToken);
-    if (!tokenIsValid) {
-      await fetcher.refresh(refreshToken, (newAccessToken) => {
-        console.log("success");
-        setAccessToken(newAccessToken);
-        postNewPost(newAccessToken);
-      });
-    } else {
-      postNewPost(accessToken);
+    const verifiedToken = await fetcher.verifyAndRefresh(
+      accessToken,
+      refreshToken
+    );
+    if (verifiedToken !== accessToken) {
+      setAccessToken(verifiedToken);
     }
+    newPost(verifiedToken);
   };
 
   return (

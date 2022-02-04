@@ -31,7 +31,7 @@ const fetcher = {
     const res = await axios.post(refreshTokenEndpoint, {
       refresh: refreshToken,
     });
-    callBack(res.data.access);
+    return res.data.access;
   },
 
   verify: async (token) => {
@@ -42,6 +42,20 @@ const fetcher = {
       return true;
     } catch (err) {
       return false;
+    }
+  },
+
+  verifyAndRefresh: async (accessToken, refreshToken) => {
+    try {
+      await axios.post(verifyTokenEndpoint, {
+        token: accessToken,
+      });
+      return accessToken;
+    } catch (err) {
+      const res = await axios.post(refreshTokenEndpoint, {
+        refresh: refreshToken,
+      });
+      return res.data.access
     }
   },
 };
