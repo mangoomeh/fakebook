@@ -11,36 +11,28 @@ const Home = () => {
 
   const { accessToken, setAccessToken, refreshToken } = useContext(UserContext);
 
-  const handleNewPost = async (e) => {
-    if (e) {
-      e.preventDefault();
-    }
-    try {
-      await fetcher.post(
-        "api/posts/new/",
-        accessToken,
-        { content: postContent },
-        (data) => {
-          console.log(data);
-        }
-      );
-    } catch (err) {
-      if (err === 401) {
-        await fetcher.refresh(refreshToken, (data) => {
-          console.log("access token", data);
-          setAccessToken(data.access);
-          // fetcher.post(
-          //   "api/posts/new/",
-          //   accessToken,
-          //   { content: postContent },
-          //   (data) => {
-          //     console.log(data);
-          //   }
-          // );
-        });
-
-        console.log("im in the catch block of handleNewPost");
+  const postNewPost = async (accessToken) => {
+    await fetcher.post(
+      "api/posts/new/",
+      accessToken,
+      { content: postContent },
+      (data) => {
+        console.log(data);
       }
+    );
+  };
+
+  const handleNewPost = async (e) => {
+    e.preventDefault();
+    const tokenIsValid = await fetcher.verify(accessToken);
+    if (!tokenIsValid) {
+      await fetcher.refresh(refreshToken, (newAccessToken) => {
+        console.log("success");
+        setAccessToken(newAccessToken);
+        postNewPost(newAccessToken);
+      });
+    } else {
+      postNewPost(accessToken);
     }
   };
 

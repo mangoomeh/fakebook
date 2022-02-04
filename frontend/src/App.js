@@ -15,6 +15,7 @@ import Friends from "./Pages/Friends/Friends";
 function App() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
