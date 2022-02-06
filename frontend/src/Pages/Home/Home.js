@@ -1,13 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Button, InputAdornment, OutlinedInput } from "@mui/material";
 import styles from "./Home.module.css";
 import fetcher from "../../Auth/Axios";
 import UserContext from "../../Context/UserContext";
+import Post from "./Post/Post";
 
 const Home = () => {
   const [postContent, setPostContent] = useState("");
   const [peopleQuery, setPeopleQuery] = useState("");
+  const [postsToBeDisplayed, setPostsToBeDisplayed] = useState([]);
+  const [action, setAction] = useState(false)
 
   const { accessToken, setAccessToken, refreshToken } = useContext(UserContext);
 
@@ -20,8 +23,20 @@ const Home = () => {
         console.log(data);
       }
     );
+    setAction(!action)
   };
-
+  
+  const fetchPosts = async () => {
+    const verifiedToken = await fetcher.verifyAndRefresh(
+      accessToken,
+      refreshToken
+    );
+    const data = await fetcher.get("api/posts/", verifiedToken);
+    setPostsToBeDisplayed(data);
+    if (accessToken !== verifiedToken) {
+      setAccessToken(verifiedToken);
+    }
+  };
   const handleNewPost = async (e) => {
     e.preventDefault();
     const verifiedToken = await fetcher.verifyAndRefresh(
@@ -31,8 +46,13 @@ const Home = () => {
     if (verifiedToken !== accessToken) {
       setAccessToken(verifiedToken);
     }
-    newPost(verifiedToken);
+    await newPost(verifiedToken);
+    fetchPosts();
   };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   return (
     <div id={styles.page}>
@@ -73,6 +93,9 @@ const Home = () => {
 
       <div>
         <h1>Posts</h1>
+        {postsToBeDisplayed.map((elem) => {
+          return <Post {...elem} />
+        })}
       </div>
     </div>
   );

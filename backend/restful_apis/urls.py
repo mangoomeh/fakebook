@@ -5,4 +5,7 @@ urlpatterns = [
     path('register/', views.RegisterUser.as_view()),
     path('users/user', views.UserProfile.as_view()),
     path('posts/new/', views.NewPost.as_view()),
+    path('posts/', views.PostList.as_view()),
+    path('addfriend/', views.SendFriendRequest.as_view()),
+    path('acceptfriend/', views.AcceptFriendRequest.as_view()),
 ]

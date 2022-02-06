@@ -33,6 +33,7 @@ class AccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name='email', max_length=60, unique=True)
+    friends = models.ManyToManyField('self', blank=True)
     name = models.CharField(max_length=30, null=False)
     surname = models.CharField(max_length=30, null=False)
     date_joined = models.DateTimeField(
@@ -56,4 +57,3 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
-
