@@ -41,14 +41,17 @@ class PeopleSerializer(serializers.ModelSerializer):
     def friendship(self, people):
         user = self.context['request'].user
         friends = user.friends.all()
-        user_friend_requests = user.accepter.all()
-        people_friend_requests = people.accepter.all()
-        print(friends, user_friend_requests, people_friend_requests)
+        friend_request_sent = user.requester_name.all()
+        friend_request_received = user.accepter_name.all()
         if people in friends:
             return "friend"
-        elif people in user_friend_requests:
+        elif people.id in friend_request_sent.values_list(
+            'accepter_id',
+                flat=True):
             return "requested"
-        elif user in people_friend_requests:
+        elif people.id in friend_request_received.values_list(
+            'requester_id',
+                flat=True):
             return "pending accept"
         elif people == user:
             return "me"

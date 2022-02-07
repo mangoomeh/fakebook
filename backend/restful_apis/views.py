@@ -46,6 +46,24 @@ class PostList(APIView):
         return Response(serializer.data)
 
 
+class FriendRequestSentList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        friend_requests = request.user.requester_name.all()
+        serializer = FriendRequestSerializer(friend_requests, many=True)
+        return Response(serializer.data)
+
+
+class FriendRequestReceivedList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        friend_requests = request.user.accepter_name.all()
+        serializer = FriendRequestSerializer(friend_requests, many=True)
+        return Response(serializer.data)
+
+
 class SendFriendRequest(APIView):
     permission_classes = (IsAuthenticated,)
 

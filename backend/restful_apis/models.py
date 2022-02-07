@@ -14,6 +14,16 @@ class Post(models.Model):
 
 class FriendRequest(models.Model):
     requester = models.ForeignKey(
-        get_user_model(), related_name="requester", on_delete=models.CASCADE)
+        get_user_model(), related_name="requester_name", on_delete=models.CASCADE)
     accepter = models.ForeignKey(
-        get_user_model(), related_name="accepter", on_delete=models.CASCADE)
+        get_user_model(), related_name="accepter_name", on_delete=models.CASCADE)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    likes = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering=['-timestamp']
