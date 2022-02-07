@@ -8,6 +8,9 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        ordering=['-timestamp']
+
 
 class FriendRequest(models.Model):
     requester = models.ForeignKey(

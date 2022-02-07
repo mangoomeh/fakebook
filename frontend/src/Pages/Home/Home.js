@@ -37,6 +37,7 @@ const Home = () => {
       setAccessToken(verifiedToken);
     }
   };
+  
   const handleNewPost = async (e) => {
     e.preventDefault();
     const verifiedToken = await fetcher.verifyAndRefresh(

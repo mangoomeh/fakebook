@@ -50,6 +50,8 @@ class PeopleSerializer(serializers.ModelSerializer):
             return "requested"
         elif user in people_friend_requests:
             return "pending accept"
+        elif people == user:
+            return "me"
 
     class Meta:
         model = get_user_model()

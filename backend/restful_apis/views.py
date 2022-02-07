@@ -40,7 +40,8 @@ class PostList(APIView):
 
     def get(self, request):
         user = request.user
-        posts = Post.objects.filter(user__in=user.friends.all())
+        lookup = Q(user__in=user.friends.all()) | Q(user=user)
+        posts = Post.objects.filter(lookup)
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
