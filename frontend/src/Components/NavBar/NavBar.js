@@ -6,6 +6,7 @@ import { Button, IconButton } from "@mui/material";
 import styles from "./NavBar.module.css";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../Context/UserContext";
+import SearchIcon from '@mui/icons-material/Search';
 
 const NavBar = () => {
   const [scrolly, setScrolly] = useState(0);
@@ -26,7 +27,7 @@ const NavBar = () => {
   const handleLogOut = () => {
     setAccessToken("");
     setRefreshToken("");
-    navigate("/")
+    navigate("/");
   };
 
   return (
@@ -46,6 +47,14 @@ const NavBar = () => {
       ) : (
         <div id={styles.navButtons}>
           <div id={styles.icons}>
+            <IconButton
+              color="primary"
+              onClick={() => {
+                navigate("/people");
+              }}
+            >
+              <SearchIcon />
+            </IconButton>
             <IconButton
               color="primary"
               onClick={() => {

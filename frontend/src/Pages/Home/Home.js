@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
 import { Button, InputAdornment, OutlinedInput } from "@mui/material";
 import styles from "./Home.module.css";
 import fetcher from "../../Auth/Axios";
@@ -8,9 +7,8 @@ import Post from "./Post/Post";
 
 const Home = () => {
   const [postContent, setPostContent] = useState("");
-  const [peopleQuery, setPeopleQuery] = useState("");
+  
   const [postsToBeDisplayed, setPostsToBeDisplayed] = useState([]);
-  const [action, setAction] = useState(false)
 
   const { accessToken, setAccessToken, refreshToken } = useContext(UserContext);
 
@@ -23,7 +21,6 @@ const Home = () => {
         console.log(data);
       }
     );
-    setAction(!action)
   };
   
   const fetchPosts = async () => {
@@ -37,7 +34,7 @@ const Home = () => {
       setAccessToken(verifiedToken);
     }
   };
-  
+
   const handleNewPost = async (e) => {
     e.preventDefault();
     const verifiedToken = await fetcher.verifyAndRefresh(
@@ -57,21 +54,6 @@ const Home = () => {
 
   return (
     <div id={styles.page}>
-      <form>
-        <OutlinedInput
-          onChange={(e) => {
-            setPeopleQuery(e.target.value);
-          }}
-          value={peopleQuery}
-          size="small"
-          placeholder="Find People"
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          }
-        />
-      </form>
       <div id={styles.postContainer}>
         <form onSubmit={handleNewPost}>
           <OutlinedInput

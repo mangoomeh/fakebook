@@ -11,10 +11,12 @@ import { useState } from "react";
 import UserContext from "./Context/UserContext";
 import ProtectedRoutes from "./Auth/ProtectedRoutes";
 import Friends from "./Pages/Friends/Friends";
+import People from "./Pages/People/People";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
+  const [peopleQuery, setPeopleQuery] = useState("");
 
   return (
     <ThemeProvider theme={theme}>
@@ -31,6 +33,7 @@ function App() {
               <Route path="home" element={<Home />} />
               <Route path="profile" element={<Profile />} />
               <Route path="friends" element={<Friends />} />
+              <Route path="people" element={<People />} />
             </Route>
           </Routes>
         </div>
