@@ -33,3 +33,24 @@ class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendRequest
         fields = '__all__'
+
+
+class PeopleSerializer(serializers.ModelSerializer):
+    status = serializers.SerializerMethodField('friendship')
+
+    def friendship(self, people):
+        user = self.context['request'].user
+        friends = user.friends.all()
+        user_friend_requests = user.accepter.all()
+        people_friend_requests = people.accepter.all()
+        print(friends, user_friend_requests, people_friend_requests)
+        if people in friends:
+            return "friend"
+        elif people in user_friend_requests:
+            return "requested"
+        elif user in people_friend_requests:
+            return "pending accept"
+
+    class Meta:
+        model = get_user_model()
+        fields = '__all__'

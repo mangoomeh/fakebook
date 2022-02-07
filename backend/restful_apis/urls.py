@@ -8,4 +8,6 @@ urlpatterns = [
     path('posts/', views.PostList.as_view()),
     path('addfriend/', views.SendFriendRequest.as_view()),
     path('acceptfriend/', views.AcceptFriendRequest.as_view()),
+    path('friends/', views.FriendList.as_view()),
+    path('people/', views.PeopleList.as_view()),
 ]

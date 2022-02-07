@@ -1,9 +1,10 @@
 from rest_framework.views import APIView
-from .serializers import FriendRequestSerializer, PostSerializer, UserProfileSerializer, UserSerializer
+from .serializers import FriendRequestSerializer, PeopleSerializer, PostSerializer, UserProfileSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import FriendRequest, Post
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 
 class RegisterUser(APIView):
@@ -38,7 +39,8 @@ class PostList(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        posts = Post.objects.all()
+        user = request.user
+        posts = Post.objects.filter(user__in=user.friends.all())
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
@@ -71,3 +73,29 @@ class AcceptFriendRequest(APIView):
             return Response({"msg": "success"})
         else:
             return Response({"msg": "error"})
+
+
+class FriendList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        user = request.user
+        friends = user.friends.all()
+        serializer = UserSerializer(friends, many=True)
+        return Response(serializer.data)
+
+
+class PeopleList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        query = request.query_params.get('query')
+        if query:
+            people = get_user_model().objects.filter(
+                Q(name__icontains=query) | Q(
+                    surname__icontains=query) | Q(email__icontains=query)
+            )
+            serializer = PeopleSerializer(
+                people, many=True, context={'request': request})
+            return Response(serializer.data)
+        return Response({"msg": "error"})
