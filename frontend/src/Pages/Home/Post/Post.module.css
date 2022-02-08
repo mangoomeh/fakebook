@@ -1,0 +1,28 @@
+#container {
+  border-radius: 30px;
+  padding: 30px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#innerRightContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#name {
+  padding-left: 20px;
+}
+
+#timestamp {
+  font-size: 11px;
+  color: grey;
+}
