@@ -9,9 +9,11 @@ const People = () => {
   const [query, setQuery] = useState("");
   const [people, setPeople] = useState([]);
   const { accessToken } = useContext(UserContext);
-  
+
   const fetchPeople = async (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const people = await fetcher.get(`api/people/?query=${query}`, accessToken);
     if (!people.msg) {
       setPeople(people);
@@ -38,7 +40,7 @@ const People = () => {
       <h1>People</h1>
       <div>
         {people.map((person) => {
-          return <PeopleCard {...person} dataFetcher={fetchPeople}/>;
+          return <PeopleCard {...person} dataFetcher={fetchPeople} />;
         })}
       </div>
     </div>
