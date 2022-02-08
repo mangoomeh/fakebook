@@ -46,13 +46,23 @@ const Friends = () => {
       <h1>Sent Friend Requests</h1>
       <div>
         {sentFriendRequests.map((fr) => {
-          return <PeopleCard {...fr} fetchData={fetchSentFriendRequests} />;
+          return (
+            <PeopleCard
+              {...{ ...fr, id: fr.accepter }}
+              fetchData={fetchSentFriendRequests}
+            />
+          );
         })}
       </div>
       <h1>Received Friend Requests</h1>
       <div>
         {receivedFriendRequests.map((fr) => {
-          return <PeopleCard {...fr} fetchData={fetchSentFriendRequests} />;
+          return (
+            <PeopleCard
+              {...{ ...fr, id: fr.requester }}
+              fetchData={fetchSentFriendRequests}
+            />
+          );
         })}
       </div>
       <h1>Friends</h1>

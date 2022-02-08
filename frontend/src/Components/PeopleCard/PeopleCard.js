@@ -19,6 +19,7 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
   }
 
   async function acceptFriendRequest(friend_id) {
+    console.log(friend_id);
     const res = await fetcher.post("api/acceptfriend/", accessToken, {
       friend: friend_id,
     });
@@ -30,7 +31,7 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
     });
   }
 
-  let icon
+  let icon;
   let handleIconClick = () => {};
   switch (status) {
     case null:
@@ -55,7 +56,7 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
       };
       break;
     case "me":
-      icon = <div style={{fontSize: "18px"}}>you</div>
+      icon = <div style={{ fontSize: "18px" }}>you</div>;
       break;
     default:
       icon = <div></div>;
