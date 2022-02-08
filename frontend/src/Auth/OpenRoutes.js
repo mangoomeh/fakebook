@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import UserContext from "../Context/UserContext";
-import Login from "../Pages/Login/Login";
+import Home from "../Pages/Home/Home";
 
-const ProtectedRoutes = () => {
+const OpenRoutes = () => {
   const userContext = useContext(UserContext);
   const isAuth = userContext.accessToken ? true : false
-  return isAuth ? <Outlet /> : <Login />;
+  return isAuth ? <Home /> : <Outlet />;
 };
 
-export default ProtectedRoutes;
+export default OpenRoutes;
