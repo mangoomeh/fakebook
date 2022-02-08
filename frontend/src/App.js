@@ -12,11 +12,11 @@ import UserContext from "./Context/UserContext";
 import ProtectedRoutes from "./Auth/ProtectedRoutes";
 import Friends from "./Pages/Friends/Friends";
 import People from "./Pages/People/People";
+import OpenRoutes from "./Auth/OpenRoutes";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
-  const [peopleQuery, setPeopleQuery] = useState("");
 
   return (
     <ThemeProvider theme={theme}>
@@ -26,9 +26,11 @@ function App() {
         <NavBar />
         <div>
           <Routes>
-            <Route path="/" element={<Start />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
+            <Route element={<OpenRoutes />}>
+              <Route path="/" element={<Start />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<SignUp />} />
+            </Route>
             <Route element={<ProtectedRoutes />}>
               <Route path="home" element={<Home />} />
               <Route path="profile" element={<Profile />} />
