@@ -149,7 +149,8 @@ class NewComment(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        serializer = CommentSerializer(data=request.data)
+        serializer = CommentSerializer(
+            data={**request.data, "user": request.user.id})
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(serializer.data)

@@ -24,6 +24,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     name = serializers.ReadOnlyField(source='user.name')
     surname = serializers.ReadOnlyField(source='user.surname')
+    comments_count = serializers.ReadOnlyField(source='comment_set.count')
     likes_count = serializers.ReadOnlyField(source='likes.count')
     liked_by_user = serializers.SerializerMethodField()
 
@@ -51,6 +52,7 @@ class SentFriendRequestSerializer(serializers.ModelSerializer):
         model = FriendRequest
         fields = '__all__'
 
+
 class ReceivedFriendRequestSerializer(serializers.ModelSerializer):
     name = serializers.ReadOnlyField(source='requester.name')
     surname = serializers.ReadOnlyField(source='requester.surname')
@@ -59,7 +61,6 @@ class ReceivedFriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendRequest
         fields = '__all__'
-
 
 
 class PeopleSerializer(serializers.ModelSerializer):
@@ -90,6 +91,7 @@ class PeopleSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField(source='user.name')
+    user_surname = serializers.ReadOnlyField(source='user.surname')
 
     class Meta:
         model = Comment

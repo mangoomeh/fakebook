@@ -17,9 +17,11 @@ const Post = ({
   likes_count,
   liked_by_user,
   dataFetcher,
+  comments_count,
 }) => {
   const { accessToken } = useContext(UserContext);
   const [comments, setComments] = useState([]);
+  const [showComment, setShowComment] = useState(false);
 
   const fetchComments = async () => {
     if (comments.length === 0) {
@@ -30,7 +32,7 @@ const Post = ({
         setComments(data);
       }
     } else {
-      setComments([])
+      setComments([]);
     }
   };
 
@@ -62,32 +64,41 @@ const Post = ({
         </div>
         <div id={styles.innerRightContainer}>
           <div>{likes_count}</div>
-          <div>
-            <IconButton
-              onClick={() => {
-                handleLike();
-                dataFetcher();
-              }}
-            >
-              <FavoriteRoundedIcon
-                sx={{ color: liked_by_user ? "red" : "grey" }}
-              />
-            </IconButton>
-          </div>
-          <div>
-            <IconButton
-              onClick={() => {
-                fetchComments();
-              }}
-            >
-              <InsertCommentRoundedIcon />
-            </IconButton>
-          </div>
+          <IconButton
+            onClick={() => {
+              handleLike();
+              dataFetcher();
+            }}
+          >
+            <FavoriteRoundedIcon
+              sx={{ color: liked_by_user ? "red" : "grey" }}
+            />
+          </IconButton>
+          <div>{comments_count}</div>
+          <IconButton
+            onClick={() => {
+              fetchComments();
+              setShowComment(!showComment);
+            }}
+          >
+            <InsertCommentRoundedIcon
+              sx={{ color: showComment ? "#283593" : "grey" }}
+            />
+          </IconButton>
         </div>
       </div>
       <div id={styles.commentsContainer}>
+        {showComment && <div className="title">Comments:</div>}
         {comments.map((comment) => {
-          return <div>{comment.content}</div>;
+          return (
+            <div className={styles.comment}>
+              <div
+                className="title"
+                id={styles.commentInfo}
+              >{`${comment.user_name} ${comment.user_surname}`}</div>
+              <div id={styles.commentInfo}>{comment.content}</div>
+            </div>
+          );
         })}
       </div>
     </div>
