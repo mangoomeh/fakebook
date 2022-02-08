@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from .serializers import CommentSerializer, FriendRequestSerializer, PeopleSerializer, PostSerializer, UserProfileSerializer, UserSerializer
+from .serializers import CommentSerializer, FriendRequestSerializer, PeopleSerializer, PostSerializer, ReceivedFriendRequestSerializer, SentFriendRequestSerializer, UserProfileSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Comment, FriendRequest, Post
@@ -13,7 +13,7 @@ class RegisterUser(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({"msg" : "success"})
+            return Response({"msg": "success"})
 
 
 class UserProfile(APIView):
@@ -42,18 +42,9 @@ class PostList(APIView):
         user = request.user
         lookup = Q(user__in=user.friends.all()) | Q(user=user)
         posts = Post.objects.filter(lookup)
-        serializer = PostSerializer(posts, many=True)
+        serializer = PostSerializer(
+            posts, many=True, context={'request': request})
         return Response(serializer.data)
-
-
-class LikePost(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def put(self, request):
-        post = Post.objects.get(pk=request.data.get('post'))
-        post.likes = F('likes') + 1
-        post.save()
-        return Response({"msg": "success"})
 
 
 class FriendRequestSentList(APIView):
@@ -61,7 +52,8 @@ class FriendRequestSentList(APIView):
 
     def get(self, request):
         friend_requests = request.user.requester_name.all()
-        serializer = FriendRequestSerializer(friend_requests, many=True)
+        serializer = SentFriendRequestSerializer(
+            friend_requests, many=True)
         return Response(serializer.data)
 
 
@@ -70,7 +62,9 @@ class FriendRequestReceivedList(APIView):
 
     def get(self, request):
         friend_requests = request.user.accepter_name.all()
-        serializer = FriendRequestSerializer(friend_requests, many=True)
+        print(friend_requests)
+        serializer = ReceivedFriendRequestSerializer(
+            friend_requests, many=True)
         return Response(serializer.data)
 
 
@@ -151,18 +145,23 @@ class PeopleList(APIView):
         return Response({"msg": "error"})
 
 
-class CommentList(APIView):
+class NewComment(APIView):
     permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        comments = Comment.objects.filter(post=request.data.get('post'))
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
 
     def post(self, request):
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+        return Response(serializer.data)
+
+
+class CommentList(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        # get by post id
+        comments = Comment.objects.filter(post=request.data.get('post'))
+        serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
 
@@ -173,4 +172,17 @@ class LikeComment(APIView):
         comment = Comment.objects.get(pk=request.data.get('comment_id'))
         comment.likes = F('likes') + 1
         comment.save()
+        return Response({"msg": "success"})
+
+
+class LikePost(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        user = request.user
+        post = Post.objects.get(pk=request.data.get("post_id"))
+        if user not in post.likes.all():
+            post.likes.add(user)
+        else:
+            post.likes.remove(user)
         return Response({"msg": "success"})

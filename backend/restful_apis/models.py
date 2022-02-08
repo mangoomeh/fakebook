@@ -6,10 +6,11 @@ class Post(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    likes = models.PositiveIntegerField(default=0)
+    likes = models.ManyToManyField(
+        get_user_model(), related_name="post_liker", blank=True)
 
     class Meta:
-        ordering=['-timestamp']
+        ordering = ['-timestamp']
 
 
 class FriendRequest(models.Model):
@@ -23,7 +24,9 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    likes = models.PositiveIntegerField(default=0)
+    likes = models.ManyToManyField(
+        get_user_model(), related_name="comment_liker", blank=True
+    )
 
     class Meta:
-        ordering=['-timestamp']
+        ordering = ['-timestamp']

@@ -15,5 +15,6 @@ urlpatterns = [
     path('friendrequests/sent/', views.FriendRequestSentList.as_view()),
     path('friendrequests/received/', views.FriendRequestReceivedList.as_view()),
     path('comments/', views.CommentList.as_view()),
+    path('comments/new/', views.NewComment.as_view()),
     path('comments/like/', views.LikeComment.as_view()),
 ]

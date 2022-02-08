@@ -1,7 +1,12 @@
 #container {
-  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
   padding: 30px;
   margin-bottom: 20px;
+}
+
+#topContainer {
   display: flex;
   justify-content: space-between;
 }
@@ -12,17 +17,25 @@
   align-items: center;
 }
 
+#innerLeftContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 #user {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-#name {
+#titleAndTimestamp {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
   padding-left: 20px;
 }
 
-#timestamp {
-  font-size: 11px;
-  color: grey;
+#commentsContainer {
+  display: flex;
+  flex-direction: column;
 }

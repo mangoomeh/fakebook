@@ -54,8 +54,11 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
         acceptFriendRequest(id);
       };
       break;
+    case "me":
+      icon = <div style={{fontSize: "18px"}}>you</div>
+      break;
     default:
-      icon = <div style={{fontSize: "18px"}}>you</div>;
+      icon = <div></div>;
   }
   return (
     <div className="card" id={styles.container}>

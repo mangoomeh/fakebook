@@ -7,9 +7,7 @@ import Post from "./Post/Post";
 
 const Home = () => {
   const [postContent, setPostContent] = useState("");
-  
   const [postsToBeDisplayed, setPostsToBeDisplayed] = useState([]);
-
   const { accessToken, setAccessToken, refreshToken } = useContext(UserContext);
 
   const newPost = async (accessToken) => {
@@ -74,7 +72,7 @@ const Home = () => {
       <div>
         <h1>Posts</h1>
         {postsToBeDisplayed.map((elem) => {
-          return <Post {...elem} />
+          return <Post {...elem} dataFetcher={fetchPosts} />
         })}
       </div>
     </div>

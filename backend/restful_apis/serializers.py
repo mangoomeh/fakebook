@@ -24,6 +24,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     name = serializers.ReadOnlyField(source='user.name')
     surname = serializers.ReadOnlyField(source='user.surname')
+    likes_count = serializers.ReadOnlyField(source='likes.count')
+    liked_by_user = serializers.SerializerMethodField()
+
+    def get_liked_by_user(self, instance):
+        current_user = self.context.get('request').user
+        return current_user in instance.likes.all()
 
     class Meta:
         model = Post
@@ -34,6 +40,26 @@ class FriendRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = FriendRequest
         fields = '__all__'
+
+
+class SentFriendRequestSerializer(serializers.ModelSerializer):
+    name = serializers.ReadOnlyField(source='accepter.name')
+    surname = serializers.ReadOnlyField(source='accepter.surname')
+    status = serializers.CharField(default="requested")
+
+    class Meta:
+        model = FriendRequest
+        fields = '__all__'
+
+class ReceivedFriendRequestSerializer(serializers.ModelSerializer):
+    name = serializers.ReadOnlyField(source='requester.name')
+    surname = serializers.ReadOnlyField(source='requester.surname')
+    status = serializers.ReadOnlyField(default="pending accept")
+
+    class Meta:
+        model = FriendRequest
+        fields = '__all__'
+
 
 
 class PeopleSerializer(serializers.ModelSerializer):
