@@ -13,7 +13,7 @@ class RegisterUser(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data)
+            return Response({"msg" : "success"})
 
 
 class UserProfile(APIView):
