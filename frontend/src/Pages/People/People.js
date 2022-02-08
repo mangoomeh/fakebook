@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { InputAdornment, OutlinedInput } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 const People = () => {
   const [query, setQuery] = useState("");
+
+  const fetchPeople = async() => {
+    
+  }
+
   return (
-    <div style={{marginTop: "60px"}}>
+    <div className="page">
       <form>
         <OutlinedInput
           onChange={(e) => {
@@ -22,9 +27,7 @@ const People = () => {
         />
       </form>
       <h1>People</h1>
-      <div>
-
-      </div>
+      <div></div>
     </div>
   );
 };
