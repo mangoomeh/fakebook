@@ -16,10 +16,7 @@ const Home = () => {
     await fetcher.post(
       "api/posts/new/",
       accessToken,
-      { content: postContent },
-      (data) => {
-        console.log(data);
-      }
+      { content: postContent }
     );
   };
   

@@ -32,14 +32,15 @@ const fetcher = {
   },
 
   delete: async (endpoint, accessToken, body) => {
-    let headers = {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    };
+    let headers =  { Authorization: `Bearer ${accessToken}` }
     if (accessToken === "") {
       headers = null;
     }
     try {
-      const res = await axios.delete(baseURL + endpoint, body, headers);
+      const res = await axios.delete(baseURL + endpoint, {
+        data: body,
+        headers,
+      });
       return res.data;
     } catch (err) {
       console.log(err);

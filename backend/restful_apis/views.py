@@ -118,9 +118,10 @@ class DeleteFriend(APIView):
 
     def delete(self, request):
         user = request.user
+        print(request.data)
         friend = get_user_model().objects.get(pk=request.data.get("friend"))
-        user.friend.remove(friend)
-        friend.friend.remove(user)
+        user.friends.remove(friend)
+        friend.friends.remove(user)
         return Response({"msg": "success"})
 
 

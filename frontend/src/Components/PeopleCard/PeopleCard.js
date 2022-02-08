@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DoneRoundedIcon from "@mui/icons-material/DoneRounded";
 import fetcher from "../../Auth/Axios";
 import UserContext from "../../Context/UserContext";
 import styles from "./PeopleCard.module.css";
 import { IconButton } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
   const { accessToken } = useContext(UserContext);
@@ -30,7 +30,8 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
     });
   }
 
-  let icon, handleIconClick;
+  let icon
+  let handleIconClick = () => {};
   switch (status) {
     case null:
       icon = <AddIcon />;
@@ -39,7 +40,7 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
       };
       break;
     case "friend":
-      icon = <RemoveIcon sx={{ fontSize: 30, color: "rgb(220, 50, 50)" }} />;
+      icon = <ClearIcon sx={{ fontSize: 25, color: "rgb(220, 50, 50)" }} />;
       handleIconClick = () => {
         deleteFriend(id);
       };
@@ -54,7 +55,7 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
       };
       break;
     default:
-      icon = <div></div>;
+      icon = <div style={{fontSize: "18px"}}>you</div>;
   }
   return (
     <div className="card" id={styles.container}>
@@ -65,7 +66,9 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
       <div
         onClick={() => {
           handleIconClick();
-          dataFetcher();
+          if (dataFetcher) {
+            dataFetcher();
+          }
         }}
       >
         <IconButton>{icon}</IconButton>
