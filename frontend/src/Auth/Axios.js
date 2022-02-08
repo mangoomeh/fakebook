@@ -31,6 +31,21 @@ const fetcher = {
     }
   },
 
+  delete: async (endpoint, accessToken, body) => {
+    let headers = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    if (accessToken === "") {
+      headers = null;
+    }
+    try {
+      const res = await axios.delete(baseURL + endpoint, body, headers);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   refresh: async (refreshToken, callBack) => {
     const res = await axios.post(refreshTokenEndpoint, {
       refresh: refreshToken,
