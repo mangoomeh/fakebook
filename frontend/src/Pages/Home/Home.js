@@ -53,7 +53,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div id={styles.page}>
+    <div className="page">
       <div id={styles.postContainer}>
         <form onSubmit={handleNewPost}>
           <OutlinedInput
