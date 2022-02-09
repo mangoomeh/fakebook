@@ -6,6 +6,7 @@ import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import { IconButton, OutlinedInput } from "@mui/material";
 import fetcher from "../../../Auth/Axios";
 import UserContext from "../../../Context/UserContext";
+import { v4 as uuidv4 } from "uuid";
 
 const Post = ({
   id,
@@ -108,7 +109,7 @@ const Post = ({
         </div>
         {comments.map((comment) => {
           return (
-            <div className={styles.comment}>
+            <div key={uuidv4()} className={styles.comment}>
               <div>
                 <div
                   className="title"

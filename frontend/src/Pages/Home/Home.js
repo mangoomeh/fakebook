@@ -4,6 +4,7 @@ import styles from "./Home.module.css";
 import fetcher from "../../Auth/Axios";
 import UserContext from "../../Context/UserContext";
 import Post from "./Post/Post";
+import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
   const [postContent, setPostContent] = useState("");
@@ -22,7 +23,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchPosts();
-    console.log("i fired once")
+    console.log("i fired once");
   }, []);
 
   return (
@@ -50,7 +51,7 @@ const Home = () => {
       <div>
         <h1>Posts</h1>
         {postsToBeDisplayed.map((elem) => {
-          return <Post {...elem} dataFetcher={fetchPosts} />;
+          return <Post key={uuidv4()} {...elem} dataFetcher={fetchPosts} />;
         })}
       </div>
     </div>
