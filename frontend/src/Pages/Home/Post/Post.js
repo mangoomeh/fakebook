@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./Post.module.css";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import InsertCommentRoundedIcon from "@mui/icons-material/InsertCommentRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import { IconButton } from "@mui/material";
+import { IconButton, OutlinedInput } from "@mui/material";
 import fetcher from "../../../Auth/Axios";
 import UserContext from "../../../Context/UserContext";
 
@@ -21,19 +21,25 @@ const Post = ({
 }) => {
   const { accessToken } = useContext(UserContext);
   const [comments, setComments] = useState([]);
-  const [showComment, setShowComment] = useState(false);
+  const [commentInput, setCommentInput] = useState("");
 
   const fetchComments = async () => {
-    if (comments.length === 0) {
-      const data = await fetcher.post("api/comments/", accessToken, {
-        post: id,
-      });
-      if (data) {
-        setComments(data);
-      }
+    const data = await fetcher.post("api/comments/", accessToken, {
+      post: id,
+    });
+    if (data) {
+      setComments(data);
     } else {
       setComments([]);
     }
+  };
+
+  const makeComment = async () => {
+    const data = await fetcher.post("api/comments/new/", accessToken, {
+      post: id,
+      content: commentInput,
+    });
+    fetchComments();
   };
 
   const handleLike = async () => {
@@ -65,7 +71,8 @@ const Post = ({
         <div id={styles.innerRightContainer}>
           <div>{likes_count}</div>
           <IconButton
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               handleLike();
               dataFetcher();
             }}
@@ -76,31 +83,45 @@ const Post = ({
           </IconButton>
           <div>{comments_count}</div>
           <IconButton
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               fetchComments();
-              setShowComment(!showComment);
             }}
           >
-            <InsertCommentRoundedIcon
-              sx={{ color: showComment ? "#283593" : "grey" }}
-            />
+            <InsertCommentRoundedIcon />
           </IconButton>
         </div>
       </div>
-      <div id={styles.commentsContainer}>
-        {showComment && <div className="title">Comments:</div>}
-        {comments.map((comment) => {
-          return (
-            <div className={styles.comment}>
-              <div
-                className="title"
-                id={styles.commentInfo}
-              >{`${comment.user_name} ${comment.user_surname}`}</div>
-              <div id={styles.commentInfo}>{comment.content}</div>
-            </div>
-          );
-        })}
-      </div>
+      {
+        <div id={styles.commentsContainer}>
+          <div>
+            <div className="title">Comments:</div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                makeComment();
+              }}
+            >
+              <input
+                onChange={(e) => {
+                  setCommentInput(e.target.value);
+                }}
+              />
+            </form>
+          </div>
+          {comments.map((comment) => {
+            return (
+              <div className={styles.comment}>
+                <div
+                  className="title"
+                  id={styles.commentInfo}
+                >{`${comment.user_name} ${comment.user_surname}`}</div>
+                <div id={styles.commentInfo}>{comment.content}</div>
+              </div>
+            );
+          })}
+        </div>
+      }
     </div>
   );
 };

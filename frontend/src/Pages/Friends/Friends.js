@@ -68,7 +68,6 @@ const Friends = () => {
       <h1>Friends</h1>
       <div>
         {friends.map((friend) => {
-          console.log(friend);
           return (
             <PeopleCard
               {...friend}
