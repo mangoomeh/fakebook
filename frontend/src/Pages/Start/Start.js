@@ -8,7 +8,7 @@ const Start = () => {
   return (
     <div id={styles.page}>
       <div id={styles.container}>
-        <h1>Welcome to jabber</h1>
+        <h1>Welcome to fakebook</h1>
         <div id={styles.buttons}>
           <div className={styles.button}>
             <Button

@@ -16,9 +16,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    friends_count = serializers.ReadOnlyField(source='friends.count')
+    posts_count = serializers.ReadOnlyField(source='post_set.count')
     class Meta:
         model = get_user_model()
-        fields = ('name', 'surname', 'email',)
+        fields = ('name', 'surname', 'email', 'friends_count', 'posts_count' )
 
 
 class PostSerializer(serializers.ModelSerializer):

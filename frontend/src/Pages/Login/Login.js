@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <div id={styles.page}>
       <form id={styles.container} onSubmit={getToken}>
-        <h1>jabber</h1>
+        <h1>fakebook</h1>
         <div className={styles.inputs}>
           <OutlinedInput
             value={email}

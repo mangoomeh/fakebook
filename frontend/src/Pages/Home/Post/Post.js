@@ -92,36 +92,41 @@ const Post = ({
           </IconButton>
         </div>
       </div>
-      {
-        <div id={styles.commentsContainer}>
-          <div>
-            <div className="title">Comments:</div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                makeComment();
+      <div id={styles.commentsContainer}>
+        <div>
+          <div className="title">Comments:</div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              makeComment();
+            }}
+          >
+            <input id={styles.commentInput}
+            placeholder="Add a comment"
+              onChange={(e) => {
+                setCommentInput(e.target.value);
               }}
-            >
-              <input
-                onChange={(e) => {
-                  setCommentInput(e.target.value);
-                }}
-              />
-            </form>
-          </div>
-          {comments.map((comment) => {
-            return (
-              <div className={styles.comment}>
+            />
+          </form>
+        </div>
+        {comments.map((comment) => {
+          return (
+            <div className={styles.comment}>
+              
+              <div>
                 <div
                   className="title"
                   id={styles.commentInfo}
                 >{`${comment.user_name} ${comment.user_surname}`}</div>
-                <div id={styles.commentInfo}>{comment.content}</div>
+                <div className="timestamp">{new Date(comment.timestamp).toLocaleString()}</div>
               </div>
-            );
-          })}
-        </div>
-      }
+
+              <div id={styles.commentInfo}>{comment.content}</div>
+
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

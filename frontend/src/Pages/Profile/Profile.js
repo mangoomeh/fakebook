@@ -34,8 +34,8 @@ const Profile = () => {
           <div>{userProfile.email}</div>
         </div>
         <div id={styles.right}>
-          <h3>Friends: </h3>
-          <h3>Posts: </h3>
+          <h3>Friends: {userProfile.friends_count} </h3>
+          <h3>Posts: {userProfile.posts_count} </h3>
           <h3>Bio: </h3>
           <p>Lorem ipsum dolor sit amet.</p>
         </div>

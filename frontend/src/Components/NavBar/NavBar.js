@@ -39,7 +39,7 @@ const NavBar = () => {
           }}
           variant="text"
         >
-          jabber
+          fakebook
         </Button>
       </div>
       {accessToken === "" ? (
