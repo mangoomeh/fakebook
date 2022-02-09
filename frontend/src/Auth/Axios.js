@@ -1,8 +1,6 @@
 import axios from "axios";
 
 const baseURL = "http://127.0.0.1:8000/";
-const refreshTokenEndpoint = baseURL + "auth/token/refresh/";
-const verifyTokenEndpoint = baseURL + "auth/token/verify/";
 
 const fetcher = {
   get: async (endpoint, accessToken) => {
@@ -32,7 +30,7 @@ const fetcher = {
   },
 
   delete: async (endpoint, accessToken, body) => {
-    let headers =  { Authorization: `Bearer ${accessToken}` }
+    let headers = { Authorization: `Bearer ${accessToken}` };
     if (accessToken === "") {
       headers = null;
     }
@@ -44,38 +42,6 @@ const fetcher = {
       return res.data;
     } catch (err) {
       console.log(err);
-    }
-  },
-
-  refresh: async (refreshToken, callBack) => {
-    const res = await axios.post(refreshTokenEndpoint, {
-      refresh: refreshToken,
-    });
-    return res.data.access;
-  },
-
-  verify: async (token) => {
-    try {
-      await axios.post(verifyTokenEndpoint, {
-        token,
-      });
-      return true;
-    } catch (err) {
-      return false;
-    }
-  },
-
-  verifyAndRefresh: async (accessToken, refreshToken) => {
-    try {
-      await axios.post(verifyTokenEndpoint, {
-        token: accessToken,
-      });
-      return accessToken;
-    } catch (err) {
-      const res = await axios.post(refreshTokenEndpoint, {
-        refresh: refreshToken,
-      });
-      return res.data.access;
     }
   },
 };

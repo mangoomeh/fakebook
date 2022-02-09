@@ -8,49 +8,27 @@ import Post from "./Post/Post";
 const Home = () => {
   const [postContent, setPostContent] = useState("");
   const [postsToBeDisplayed, setPostsToBeDisplayed] = useState([]);
-  const { accessToken, setAccessToken, refreshToken } = useContext(UserContext);
+  const { accessToken } = useContext(UserContext);
 
-  const newPost = async (accessToken) => {
-    await fetcher.post(
-      "api/posts/new/",
-      accessToken,
-      { content: postContent }
-    );
-  };
-  
   const fetchPosts = async () => {
-    const verifiedToken = await fetcher.verifyAndRefresh(
-      accessToken,
-      refreshToken
-    );
-    const data = await fetcher.get("api/posts/", verifiedToken);
+    const data = await fetcher.get("api/posts/", accessToken);
     setPostsToBeDisplayed(data);
-    if (accessToken !== verifiedToken) {
-      setAccessToken(verifiedToken);
-    }
   };
 
-  const handleNewPost = async (e) => {
-    e.preventDefault();
-    const verifiedToken = await fetcher.verifyAndRefresh(
-      accessToken,
-      refreshToken
-    );
-    if (verifiedToken !== accessToken) {
-      setAccessToken(verifiedToken);
-    }
-    await newPost(verifiedToken);
+  const newPost = async () => {
+    await fetcher.post("api/posts/new/", accessToken, { content: postContent });
     fetchPosts();
   };
 
   useEffect(() => {
     fetchPosts();
+    console.log("i fired once")
   }, []);
 
   return (
     <div className="page">
       <div id={styles.postContainer}>
-        <form onSubmit={handleNewPost}>
+        <form onSubmit={newPost}>
           <OutlinedInput
             multiline
             rows={4}
@@ -72,7 +50,7 @@ const Home = () => {
       <div>
         <h1>Posts</h1>
         {postsToBeDisplayed.map((elem) => {
-          return <Post {...elem} dataFetcher={fetchPosts} />
+          return <Post {...elem} dataFetcher={fetchPosts} />;
         })}
       </div>
     </div>

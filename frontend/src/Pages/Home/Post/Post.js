@@ -27,11 +27,7 @@ const Post = ({
     const data = await fetcher.post("api/comments/", accessToken, {
       post: id,
     });
-    if (data) {
-      setComments(data);
-    } else {
-      setComments([]);
-    }
+    setComments(data);
   };
 
   const makeComment = async () => {
@@ -39,13 +35,14 @@ const Post = ({
       post: id,
       content: commentInput,
     });
-    fetchComments();
+    dataFetcher();
   };
 
   const handleLike = async () => {
     const res = await fetcher.post("api/posts/like/", accessToken, {
       post_id: id,
     });
+    dataFetcher();
   };
 
   return (
@@ -74,7 +71,6 @@ const Post = ({
             onClick={(e) => {
               e.preventDefault();
               handleLike();
-              dataFetcher();
             }}
           >
             <FavoriteRoundedIcon
@@ -101,8 +97,9 @@ const Post = ({
               makeComment();
             }}
           >
-            <input id={styles.commentInput}
-            placeholder="Add a comment"
+            <input
+              id={styles.commentInput}
+              placeholder="Add a comment"
               onChange={(e) => {
                 setCommentInput(e.target.value);
               }}
@@ -112,17 +109,16 @@ const Post = ({
         {comments.map((comment) => {
           return (
             <div className={styles.comment}>
-              
               <div>
                 <div
                   className="title"
                   id={styles.commentInfo}
                 >{`${comment.user_name} ${comment.user_surname}`}</div>
-                <div className="timestamp">{new Date(comment.timestamp).toLocaleString()}</div>
+                <div className="timestamp">
+                  {new Date(comment.timestamp).toLocaleString()}
+                </div>
               </div>
-
               <div id={styles.commentInfo}>{comment.content}</div>
-
             </div>
           );
         })}

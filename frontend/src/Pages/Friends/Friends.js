@@ -4,35 +4,24 @@ import PeopleCard from "../../Components/PeopleCard/PeopleCard";
 import UserContext from "../../Context/UserContext";
 
 const Friends = () => {
-  const { accessToken, refreshToken, setAccessToken } = useContext(UserContext);
+  const { accessToken } = useContext(UserContext);
   const [friends, setFriends] = useState([]);
   const [sentFriendRequests, setSentFriendRequests] = useState([]);
   const [receivedFriendRequests, setReceivedFriendRequests] = useState([]);
 
   const fetchFriends = async () => {
-    const verifiedToken = await fetcher.verifyAndRefresh(
-      accessToken,
-      refreshToken
-    );
-    const data = await fetcher.get("api/friends/", verifiedToken);
+    const data = await fetcher.get("api/friends/", accessToken);
     setFriends(data);
-    if (accessToken !== verifiedToken) {
-      setAccessToken(verifiedToken);
-    }
   };
 
   const fetchSentFriendRequests = async () => {
     const data = await fetcher.get("api/friendrequests/sent/", accessToken);
-    if (data) {
-      setSentFriendRequests(data);
-    }
+    setSentFriendRequests(data);
   };
 
   const fetchReceivedFriendRequests = async () => {
     const data = await fetcher.get("api/friendrequests/received/", accessToken);
-    if (data) {
-      setReceivedFriendRequests(data);
-    }
+    setReceivedFriendRequests(data);
   };
 
   useEffect(() => {

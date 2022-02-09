@@ -16,7 +16,6 @@ const SignUp = () => {
   const createAccount = async (e) => {
     e.preventDefault();
     const data = await fetcher.post("api/register/", "", inputs);
-    console.log(data);
     navigate("/login");
   };
 

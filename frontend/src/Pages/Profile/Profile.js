@@ -6,19 +6,12 @@ import fetcher from "../../Auth/Axios";
 
 const Profile = () => {
   const [userProfile, setUserProfile] = useState({});
-  const { accessToken, refreshToken, setAccessToken } = useContext(UserContext);
+  const { accessToken } = useContext(UserContext);
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const verifiedToken = await fetcher.verifyAndRefresh(
-        accessToken,
-        refreshToken
-      );
-      const data = await fetcher.get("api/users/user", verifiedToken);
+      const data = await fetcher.get("api/users/user", accessToken);
       setUserProfile(data);
-      if (accessToken !== verifiedToken) {
-        setAccessToken(verifiedToken);
-      }
     };
     fetchProfile();
   }, []);
