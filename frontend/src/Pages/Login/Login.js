@@ -1,5 +1,5 @@
 import { Button, OutlinedInput } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 import UserContext from "../../Context/UserContext";
@@ -22,6 +22,7 @@ const Login = () => {
     });
     setAccessToken(access);
     setRefreshToken(refresh);
+    navigate("/home");
   };
 
   return (
