@@ -25,10 +25,14 @@ const Friends = () => {
     setReceivedFriendRequests(data);
   };
 
-  useEffect(() => {
+  const fetchData = async () => {
     fetchFriends();
     fetchSentFriendRequests();
     fetchReceivedFriendRequests();
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return (
@@ -38,8 +42,11 @@ const Friends = () => {
         {sentFriendRequests.map((fr) => {
           return (
             <PeopleCard
-              {...{ ...fr, id: fr.accepter }}
-              fetchData={fetchSentFriendRequests}
+              {...{
+                ...fr,
+                id: fr.accepter,
+                dataFetcher: fetchData,
+              }}
             />
           );
         })}
@@ -49,8 +56,11 @@ const Friends = () => {
         {receivedFriendRequests.map((fr) => {
           return (
             <PeopleCard
-              {...{ ...fr, id: fr.requester }}
-              fetchData={fetchSentFriendRequests}
+              {...{
+                ...fr,
+                id: fr.requester,
+                dataFetcher: fetchData,
+              }}
             />
           );
         })}
@@ -61,9 +71,8 @@ const Friends = () => {
         {friends.map((friend) => {
           return (
             <PeopleCard
-              {...friend}
+              {...{ ...friend, dataFetcher: fetchData }}
               status="friend"
-              dataFetcher={fetchFriends}
             />
           );
         })}

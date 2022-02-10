@@ -18,7 +18,7 @@ const SignUp = () => {
     const data = await fetcher.post("api/register/", "", inputs);
     if (data) {
       alert("Sign up success!");
-      navigate("/login");
+      navigate("/");
     }
   };
 

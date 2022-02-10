@@ -4,7 +4,8 @@
   border-radius: 10px;
   padding: 10px 30px;
   margin-bottom: 10px;
-  color: rgb(199, 32, 32)
+  color: rgb(199, 32, 32);
+  margin-top: 0;
 }
 
 #user {

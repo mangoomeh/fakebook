@@ -19,7 +19,6 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
   }
 
   async function acceptFriendRequest(friend_id) {
-    console.log(friend_id);
     const res = await fetcher.post("api/acceptfriend/", accessToken, {
       friend: friend_id,
     });
@@ -36,14 +35,14 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
   switch (status) {
     case null:
       icon = <AddIcon />;
-      handleIconClick = () => {
-        sendFriendRequest(id);
+      handleIconClick = async () => {
+        await sendFriendRequest(id);
       };
       break;
     case "friend":
       icon = <ClearIcon sx={{ fontSize: 25, color: "rgb(220, 50, 50)" }} />;
-      handleIconClick = () => {
-        deleteFriend(id);
+      handleIconClick = async () => {
+        await deleteFriend(id);
       };
       break;
     case "requested":
@@ -51,8 +50,8 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
       break;
     case "pending accept":
       icon = <DoneRoundedIcon />;
-      handleIconClick = () => {
-        acceptFriendRequest(id);
+      handleIconClick = async () => {
+        await acceptFriendRequest(id);
       };
       break;
     case "me":
@@ -68,8 +67,8 @@ const PeopleCard = ({ name, surname, status, dataFetcher, id }) => {
         <div className="title" id={styles.title}>{`${name} ${surname}`}</div>
       </div>
       <div
-        onClick={() => {
-          handleIconClick();
+        onClick={async () => {
+          await handleIconClick();
           if (dataFetcher) {
             dataFetcher();
           }
