@@ -3,7 +3,7 @@ import styles from "./Post.module.css";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import InsertCommentRoundedIcon from "@mui/icons-material/InsertCommentRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import { IconButton } from "@mui/material";
+import { Button, IconButton, OutlinedInput } from "@mui/material";
 import fetcher from "../../../Auth/Axios";
 import UserContext from "../../../Context/UserContext";
 import { v4 as uuidv4 } from "uuid";
@@ -19,10 +19,23 @@ const Post = ({
   liked_by_user,
   dataFetcher,
   comments_count,
+  belongs_to_user,
 }) => {
   const { accessToken } = useContext(UserContext);
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
+  const [editPost, setEditPost] = useState(false);
+  const [editPostInput, setEditPostInput] = useState("");
+
+  const handleSavePost = async (e) => {
+    e.preventDefault();
+    const data = await fetcher.post("api/posts/post/updatePost/", accessToken, {
+      post_id: id,
+      content: editPostInput,
+    });
+    setEditPost(false);
+    dataFetcher();
+  };
 
   const fetchComments = async () => {
     const data = await fetcher.post("api/comments/", accessToken, {
@@ -65,7 +78,23 @@ const Post = ({
               </div>
             </div>
           </div>
-          <div>{content}</div>
+          {editPost ? (
+            <form onSubmit={handleSavePost}>
+              <div>
+                <OutlinedInput
+                  value={editPostInput}
+                  onChange={(e) => {
+                    setEditPostInput(e.target.value);
+                  }}
+                />
+              </div>
+              <Button variant="contained" type="submit">
+                save
+              </Button>
+            </form>
+          ) : (
+            <div>{content}</div>
+          )}
         </div>
         <div id={styles.innerRightContainer}>
           <div>{likes_count}</div>
@@ -90,6 +119,18 @@ const Post = ({
           </IconButton>
         </div>
       </div>
+      {belongs_to_user && !editPost ? (
+        <div
+          onClick={() => {
+            setEditPost(true);
+            setEditPostInput(content);
+          }}
+        >
+          <Button variant="outlined">edit post</Button>
+        </div>
+      ) : (
+        <div></div>
+      )}
       <div id={styles.commentsContainer}>
         <div>
           <div className="title">Comments:</div>
