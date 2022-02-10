@@ -34,6 +34,7 @@ const Home = () => {
           onSubmit={(e) => {
             e.preventDefault();
             newPost();
+            setPostContent("")
           }}
         >
           <OutlinedInput

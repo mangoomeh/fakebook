@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./Post.module.css";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import InsertCommentRoundedIcon from "@mui/icons-material/InsertCommentRounded";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import { IconButton, OutlinedInput } from "@mui/material";
+import { IconButton } from "@mui/material";
 import fetcher from "../../../Auth/Axios";
 import UserContext from "../../../Context/UserContext";
 import { v4 as uuidv4 } from "uuid";
@@ -36,7 +36,8 @@ const Post = ({
       post: id,
       content: commentInput,
     });
-    dataFetcher();
+    setCommentInput("");
+    fetchComments();
   };
 
   const handleLike = async () => {
@@ -104,6 +105,7 @@ const Post = ({
               onChange={(e) => {
                 setCommentInput(e.target.value);
               }}
+              value={commentInput}
             />
           </form>
         </div>

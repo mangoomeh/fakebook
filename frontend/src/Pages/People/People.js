@@ -38,11 +38,15 @@ const People = () => {
         />
       </form>
       <h1>People</h1>
-      <div>
-        {people.map((person) => {
-          return <PeopleCard {...person} dataFetcher={fetchPeople} />;
-        })}
-      </div>
+      {people.length === 0 ? (
+        <div>no users</div>
+      ) : (
+        <div>
+          {people.map((person) => {
+            return <PeopleCard {...person} dataFetcher={fetchPeople} />;
+          })}
+        </div>
+      )}
     </div>
   );
 };
