@@ -16,7 +16,10 @@ const SignUp = () => {
   const createAccount = async (e) => {
     e.preventDefault();
     const data = await fetcher.post("api/register/", "", inputs);
-    navigate("/login");
+    if (data) {
+      alert("Sign up success!");
+      navigate("/login");
+    }
   };
 
   return (

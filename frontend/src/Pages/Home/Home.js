@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, InputAdornment, OutlinedInput } from "@mui/material";
+import { Button, OutlinedInput } from "@mui/material";
 import styles from "./Home.module.css";
 import fetcher from "../../Auth/Axios";
 import UserContext from "../../Context/UserContext";
@@ -13,7 +13,9 @@ const Home = () => {
 
   const fetchPosts = async () => {
     const data = await fetcher.get("api/posts/", accessToken);
-    setPostsToBeDisplayed(data);
+    if (data) {
+      setPostsToBeDisplayed(data);
+    }
   };
 
   const newPost = async () => {
@@ -23,13 +25,17 @@ const Home = () => {
 
   useEffect(() => {
     fetchPosts();
-    console.log("i fired once");
   }, []);
 
   return (
     <div className="page">
       <div id={styles.postContainer}>
-        <form onSubmit={newPost}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            newPost();
+          }}
+        >
           <OutlinedInput
             multiline
             rows={4}

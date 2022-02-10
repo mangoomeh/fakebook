@@ -16,13 +16,18 @@ const Login = () => {
 
   const getToken = async (e) => {
     e.preventDefault();
-    const { access, refresh } = await fetcher.post("auth/token/", "", {
+    const data = await fetcher.post("auth/token/", "", {
       email,
       password,
     });
-    setAccessToken(access);
-    setRefreshToken(refresh);
-    navigate("/home");
+    if (data) {
+      const { access, refresh } = data;
+      setAccessToken(access);
+      setRefreshToken(refresh);
+      navigate("/home");
+    } else {
+      alert("wrong email/password!");
+    }
   };
 
   return (
