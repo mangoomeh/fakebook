@@ -71,7 +71,7 @@ const SignUp = () => {
           join
         </Button>
         <p>
-          Already a member? <Link to="/login">Login</Link>
+          Already a member? <Link to="/">Login</Link>
         </p>
         <div className={styles.inputs}></div>
       </form>

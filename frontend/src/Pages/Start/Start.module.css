@@ -9,8 +9,13 @@
 
 #container {
   border-radius: 10px;
-  padding: 100px;
   background-color: white;
+  padding: 10px;
+}
+
+#title {
+  padding: 10px;
+  margin: 0;
 }
 
 #buttons {

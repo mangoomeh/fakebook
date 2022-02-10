@@ -7,6 +7,11 @@ import { Button, IconButton, OutlinedInput } from "@mui/material";
 import fetcher from "../../../Auth/Axios";
 import UserContext from "../../../Context/UserContext";
 import { v4 as uuidv4 } from "uuid";
+import Comment from "./Comment/Comment";
+import Header from "./Header/Header";
+import LikeCommentBar from "./LikeCommentBar/LikeCommentBar";
+import "./Post.css";
+import CommentInputBar from "./CommentInputBar/CommentInputBar";
 
 const Post = ({
   id,
@@ -44,7 +49,8 @@ const Post = ({
     setComments(data);
   };
 
-  const makeComment = async () => {
+  const makeComment = async (e) => {
+    e.preventDefault();
     const data = await fetcher.post("api/comments/new/", accessToken, {
       post: id,
       content: commentInput,
@@ -61,112 +67,36 @@ const Post = ({
   };
 
   return (
-    <div className="card" id={styles.container}>
-      <div id={styles.topContainer}>
-        <div id={styles.innerLeftContainer}>
-          <div id={styles.user}>
-            <AccountCircleRoundedIcon
-              sx={{ fontSize: 40, color: "#28359390" }}
-            />
-            <div id={styles.titleAndTimestamp}>
-              <div
-                className="title"
-                id={styles.name}
-              >{`${name} ${surname}`}</div>
-              <div className="timestamp">
-                {new Date(timestamp).toLocaleString()}
-              </div>
-            </div>
-          </div>
-          {editPost ? (
-            <form onSubmit={handleSavePost}>
-              <div>
-                <OutlinedInput
-                  value={editPostInput}
-                  onChange={(e) => {
-                    setEditPostInput(e.target.value);
-                  }}
-                />
-              </div>
-              <Button variant="contained" type="submit">
-                save
-              </Button>
-            </form>
-          ) : (
-            <div>{content}</div>
-          )}
-        </div>
-        <div id={styles.innerRightContainer}>
-          <div>{likes_count}</div>
-          <IconButton
-            onClick={(e) => {
-              e.preventDefault();
-              handleLike();
-            }}
-          >
-            <FavoriteRoundedIcon
-              sx={{ color: liked_by_user ? "red" : "grey" }}
-            />
-          </IconButton>
-          <div>{comments_count}</div>
-          <IconButton
-            onClick={(e) => {
-              e.preventDefault();
-              fetchComments();
-            }}
-          >
-            <InsertCommentRoundedIcon />
-          </IconButton>
-        </div>
-      </div>
-      {belongs_to_user && !editPost ? (
-        <div
-          onClick={() => {
-            setEditPost(true);
-            setEditPostInput(content);
-          }}
-        >
-          <Button variant="outlined">edit post</Button>
-        </div>
-      ) : (
-        <div></div>
-      )}
-      <div id={styles.commentsContainer}>
-        <div>
-          <div className="title">Comments:</div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              makeComment();
-            }}
-          >
-            <input
-              id={styles.commentInput}
-              placeholder="Add a comment"
+    <div className="card">
+      <Header {...{ name, surname, timestamp }} />
+      {editPost ? (
+        <form onSubmit={handleSavePost}>
+          <div>
+            <OutlinedInput
+              value={editPostInput}
               onChange={(e) => {
-                setCommentInput(e.target.value);
+                setEditPostInput(e.target.value);
               }}
-              value={commentInput}
             />
-          </form>
+          </div>
+          <Button variant="contained" type="submit">
+            save
+          </Button>
+        </form>
+      ) : (
+        <div className="container" style={{ minHeight: "50px" }}>
+          {content}
         </div>
+      )}
+
+      <LikeCommentBar {...{ handleLike, fetchComments, liked_by_user, likes_count }} />
+      <div>
         {comments.map((comment) => {
-          return (
-            <div key={uuidv4()} className={styles.comment}>
-              <div>
-                <div
-                  className="title"
-                  id={styles.commentInfo}
-                >{`${comment.user_name} ${comment.user_surname}`}</div>
-                <div className="timestamp">
-                  {new Date(comment.timestamp).toLocaleString()}
-                </div>
-              </div>
-              <div id={styles.commentInfo}>{comment.content}</div>
-            </div>
-          );
+          return <Comment {...comment} />;
         })}
       </div>
+
+      <CommentInputBar {...{ makeComment, setCommentInput, commentInput }} />
     </div>
   );
 };

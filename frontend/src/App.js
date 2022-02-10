@@ -26,8 +26,7 @@ function App() {
         <NavBar />
           <Routes>
             <Route element={<OpenRoutes />}>
-              <Route path="/" element={<Start />} />
-              <Route path="login" element={<Login />} />
+              <Route path="/" element={<Login />} />
               <Route path="signup" element={<SignUp />} />
             </Route>
             <Route element={<ProtectedRoutes />}>

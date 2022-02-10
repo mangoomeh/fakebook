@@ -6,23 +6,13 @@ import { Button, IconButton } from "@mui/material";
 import styles from "./NavBar.module.css";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../Context/UserContext";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
 const NavBar = () => {
-  const [scrolly, setScrolly] = useState(0);
-  const scrollHandler = () => {
-    setScrolly(window.scrollY);
-  };
-
   const navigate = useNavigate();
 
   const { accessToken, setAccessToken, setRefreshToken } =
     useContext(UserContext);
-
-  useEffect(() => {
-    window.addEventListener("scroll", scrollHandler);
-    return window.removeEventListener("scroll", scrollHandler);
-  }, [scrolly]);
 
   const handleLogOut = () => {
     setAccessToken("");
@@ -31,16 +21,17 @@ const NavBar = () => {
   };
 
   return (
-    <div id={scrolly === 0 ? styles.containerOnTop : styles.containerOnTheMove}>
+    <div id={styles.containerOnTop}>
       <div id={styles.logo}>
-        <Button
+        <div
+          id={styles.logoText}
           onClick={() => {
             navigate("/");
           }}
           variant="text"
         >
           fakebook
-        </Button>
+        </div>
       </div>
       {accessToken === "" ? (
         <></>
@@ -48,6 +39,10 @@ const NavBar = () => {
         <div id={styles.navButtons}>
           <div id={styles.icons}>
             <IconButton
+              sx={{
+                border: "1px solid rgba(139, 139, 139, 0.2)",
+                borderRadius: "10px",
+              }}
               color="primary"
               onClick={() => {
                 navigate("/people");
@@ -56,6 +51,10 @@ const NavBar = () => {
               <SearchIcon />
             </IconButton>
             <IconButton
+              sx={{
+                border: "1px solid rgba(139, 139, 139, 0.2)",
+                borderRadius: "10px",
+              }}
               color="primary"
               onClick={() => {
                 navigate("/home");
@@ -64,6 +63,10 @@ const NavBar = () => {
               <HomeRoundedIcon />
             </IconButton>
             <IconButton
+              sx={{
+                border: "1px solid rgba(139, 139, 139, 0.2)",
+                borderRadius: "10px",
+              }}
               color="primary"
               onClick={() => {
                 navigate("/friends");
@@ -72,6 +75,10 @@ const NavBar = () => {
               <PeopleRoundedIcon />
             </IconButton>
             <IconButton
+              sx={{
+                border: "1px solid rgba(139, 139, 139, 0.2)",
+                borderRadius: "10px",
+              }}
               color="primary"
               onClick={() => {
                 navigate("/profile");

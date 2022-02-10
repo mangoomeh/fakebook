@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import UserContext from "../Context/UserContext";
-import Home from "../Pages/Home/Home";
 
 const OpenRoutes = () => {
   const userContext = useContext(UserContext);
