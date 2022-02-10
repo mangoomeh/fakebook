@@ -1,7 +1,7 @@
 # fakebook
 
 ## Info
-Based on facebook the app has the following functionalities:
+Based on facebook. The app has the following functionalities:
 1. Create account
 2. Make a post
 3. Like a post
