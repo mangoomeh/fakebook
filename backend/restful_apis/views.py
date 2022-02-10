@@ -29,7 +29,8 @@ class NewPost(APIView):
 
     def post(self, request):
         serializer = PostSerializer(
-            data={**request.data, "user": request.user.id})
+            data={**request.data, "user": request.user.id},
+            context={'request': request})
         if serializer.is_valid(raise_exception=True):
             serializer.save()
         return Response(serializer.data)
@@ -174,3 +175,26 @@ class LikePost(APIView):
         else:
             post.likes.remove(user)
         return Response({"msg": "success"})
+
+
+class updateUserBio(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        user = request.user
+        user.bio = request.data.get("content")
+        user.save()
+        serializer = UserProfileSerializer(user)
+        return Response(serializer.data)
+
+
+class updatePost(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        post_id = request.data.get("post_id")
+        post = Post.objects.get(pk=post_id)
+        post.content = request.data.get("content")
+        post.save()
+        serializer = PostSerializer(post, context={'request': request})
+        return Response(serializer.data)

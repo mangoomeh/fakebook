@@ -17,4 +17,6 @@ urlpatterns = [
     path('comments/', views.CommentList.as_view()),
     path('comments/new/', views.NewComment.as_view()),
     path('comments/like/', views.LikeComment.as_view()),
+    path('users/user/updateBio/', views.updateUserBio.as_view()),
+    path('posts/post/updatePost/', views.updatePost.as_view()),
 ]

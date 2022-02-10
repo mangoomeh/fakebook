@@ -20,7 +20,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     posts_count = serializers.ReadOnlyField(source='post_set.count')
     class Meta:
         model = get_user_model()
-        fields = ('name', 'surname', 'email', 'friends_count', 'posts_count' )
+        fields = ('name', 'surname', 'email', 'friends_count', 'posts_count', 'bio' )
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -28,11 +28,16 @@ class PostSerializer(serializers.ModelSerializer):
     surname = serializers.ReadOnlyField(source='user.surname')
     comments_count = serializers.ReadOnlyField(source='comment_set.count')
     likes_count = serializers.ReadOnlyField(source='likes.count')
-    liked_by_user = serializers.SerializerMethodField()
+    liked_by_user = serializers.SerializerMethodField('get_liked_by_user')
+    belongs_to_user = serializers.SerializerMethodField('get_belongs_to_user')
 
     def get_liked_by_user(self, instance):
         current_user = self.context.get('request').user
         return current_user in instance.likes.all()
+
+    def get_belongs_to_user(self, instance):
+        current_user = self.context.get('request').user
+        return current_user == instance.user
 
     class Meta:
         model = Post
