@@ -63,7 +63,6 @@ class FriendRequestReceivedList(APIView):
 
     def get(self, request):
         friend_requests = request.user.accepter_name.all()
-        print(friend_requests)
         serializer = ReceivedFriendRequestSerializer(
             friend_requests, many=True)
         return Response(serializer.data)
