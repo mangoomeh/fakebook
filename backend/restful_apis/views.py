@@ -84,19 +84,6 @@ class SendFriendRequest(APIView):
 class AcceptFriendRequest(APIView):
     permission_classes = (IsAuthenticated,)
 
-    # def post(self, request):
-    #     friend_request = FriendRequest.objects.get(
-    #         pk=request.data['friend_request'])
-    #     accepter = friend_request.accepter
-    #     requester = friend_request.requester
-    #     if request.user.id == accepter.id:
-    #         requester.friends.add(accepter)
-    #         accepter.friends.add(requester)
-    #         friend_request.delete()
-    #         return Response({"msg": "success"})
-    #     else:
-    #         return Response({"msg": "error"})
-
     def post(self, request):
         friend = get_user_model().objects.get(pk=request.data.get('friend'))
         user = request.user

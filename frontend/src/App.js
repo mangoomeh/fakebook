@@ -24,7 +24,6 @@ function App() {
         value={{ accessToken, setAccessToken, refreshToken, setRefreshToken }}
       >
         <NavBar />
-        <div>
           <Routes>
             <Route element={<OpenRoutes />}>
               <Route path="/" element={<Start />} />
@@ -38,7 +37,6 @@ function App() {
               <Route path="people" element={<People />} />
             </Route>
           </Routes>
-        </div>
       </UserContext.Provider>
     </ThemeProvider>
   );
