@@ -28,6 +28,7 @@ const SignUp = () => {
         <h1>Join Us</h1>
         <div className={styles.inputs}>
           <OutlinedInput
+            autoFocus
             value={inputs.email}
             onChange={(e) => {
               setInputs({ ...inputs, email: `${e.target.value}` });
@@ -67,7 +68,7 @@ const SignUp = () => {
             placeholder="Last Name"
           />
         </div>
-        <Button type="submit" variant="contained">
+        <Button sx={{width: "100%"}} type="submit" variant="contained">
           join
         </Button>
         <p>

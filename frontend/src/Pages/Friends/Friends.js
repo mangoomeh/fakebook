@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import fetcher from "../../Auth/Axios";
 import PeopleCard from "../../Components/PeopleCard/PeopleCard";
 import UserContext from "../../Context/UserContext";
@@ -55,6 +56,7 @@ const Friends = () => {
         })}
       </div>
       <h1>Friends</h1>
+      {friends.length === 0 && <Link to="/people">Find people now</Link>}
       <div>
         {friends.map((friend) => {
           return (

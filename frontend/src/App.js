@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import NavBar from "./Components/NavBar/NavBar";
-import Start from "./Pages/Start/Start";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/SignUp/SignUp";

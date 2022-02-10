@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setAccessToken, setRefreshToken, accessToken } =
+  const { setAccessToken, setRefreshToken } =
     useContext(UserContext);
 
   const navigate = useNavigate();
@@ -36,6 +36,7 @@ const Login = () => {
         <h1>fakebook</h1>
         <div className={styles.inputs}>
           <OutlinedInput
+            autoFocus
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -55,7 +56,7 @@ const Login = () => {
             placeholder="Password"
           />
         </div>
-        <Button type="submit" variant="contained">
+        <Button sx={{ width: "100%" }} type="submit" variant="contained">
           continue
         </Button>
         <p>

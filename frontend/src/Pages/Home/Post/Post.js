@@ -1,9 +1,5 @@
 import React, { useContext, useState } from "react";
-import styles from "./Post.module.css";
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import InsertCommentRoundedIcon from "@mui/icons-material/InsertCommentRounded";
-import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
-import { Button, IconButton, OutlinedInput } from "@mui/material";
+import { Button, OutlinedInput } from "@mui/material";
 import fetcher from "../../../Auth/Axios";
 import UserContext from "../../../Context/UserContext";
 import { v4 as uuidv4 } from "uuid";
@@ -92,7 +88,7 @@ const Post = ({
       <LikeCommentBar {...{ handleLike, fetchComments, liked_by_user, likes_count }} />
       <div>
         {comments.map((comment) => {
-          return <Comment {...comment} />;
+          return <Comment key={uuidv4()} {...comment} />;
         })}
       </div>
 
