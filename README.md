@@ -15,4 +15,4 @@ Fakebook is a Facebook clone, built using React.js, Django, Postgresql. It has t
 Completed. Might implement additional features like posting media.
 
 ## Trivia
-This app is created for project 4 of GA SEI-33 part of the reason stems from curiousity about how friends system in social media apps work.
+This app is created for project 4 of GA SEI-33. Large part of the reason why stems from curiousity about how friends system in social media apps work.
