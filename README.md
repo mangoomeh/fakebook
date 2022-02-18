@@ -1,23 +1,13 @@
 # fakebook
+Fakebook is a Facebook clone, built using React.js, Django, Postgresql. It has the basic capabilities of a social media app with the exception of posting media. This full stack application is created to apply skills learnt in Python programming language, and Django's ORM.
 
-## Info
-Based on facebook. The app has the following functionalities:
-1. Create account
-2. Make a post
-3. Like a post
-4. Comment on a post
-5. Search for people
-6. Send a friend request to people
-7. Accept a friend request
-8. Delete a friend
-9. Edit your bio
-10. View your friends' posts
+## Setup
+1. `npm i` for frontend
+2. `python manage.py runserver` for backend
+3. Here is a working live version of the frontend application: [Fakebook](https://mango-fakebook.netlify.app/)
 
-## Stack
-1. Node.js
-2. React.js
-3. Django - python
-4. Postgresql via psycopg2
+## Project Status
+Completed. Might implement additional features like posting media.
 
 ## Trivia
-This app is created for project 4 of GA SEI-33
+This app is created for project 4 of GA SEI-33 part of the reason stems from curiousity about how friends system in social media apps work.
